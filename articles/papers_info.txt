@@ -1,0 +1,222 @@
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+ARTICLES INFO
+Most of the methods are well summarized in: https://captum.ai/docs/algorithms
+Implementations can be found at: https://github.com/slundberg/shap
+				https://github.com/pytorch/captum
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
+
+1- Shap: Unified Approach
+
+@incollection{NIPS2017_7062,
+title = {A Unified Approach to Interpreting Model Predictions},
+author = {Lundberg, Scott M and Lee, Su-In},
+booktitle = {Advances in Neural Information Processing Systems 30},
+editor = {I. Guyon and U. V. Luxburg and S. Bengio and H. Wallach and R. Fergus and S. Vishwanathan and R. Garnett},
+pages = {4765--4774},
+year = {2017},
+publisher = {Curran Associates, Inc.},
+url = {http://papers.nips.cc/paper/7062-a-unified-approach-to-interpreting-model-predictions.pdf}
+}
+
+Keynote: Review of different interprtability tecniques plus new proposed (ShapDeepLift)
+----------------------------------------------------------------------------------------
+2- Shapley sampling
+
+@article{10.1007/s10115-013-0679-x,
+author = {\v{S}trumbelj, Erik and Kononenko, Igor},
+title = {Explaining Prediction Models and Individual Predictions with Feature Contributions},
+year = {2014},
+issue_date = {December 2014},
+publisher = {Springer-Verlag},
+address = {Berlin, Heidelberg},
+volume = {41},
+number = {3},
+issn = {0219-1377},
+url = {https://doi.org/10.1007/s10115-013-0679-x},
+doi = {10.1007/s10115-013-0679-x},
+journal = {Knowl. Inf. Syst.},
+}
+
+Keynote: Don't need to retrain the model for each subset of features, just use resampling (to read again)
+----------------------------------------------------------------------------------------
+3- DeepLift
+
+@article{DBLP:journals/corr/ShrikumarGK17,
+  author    = {Avanti Shrikumar and
+               Peyton Greenside and
+               Anshul Kundaje},
+  title     = {Learning Important Features Through Propagating Activation Differences},
+  journal   = {CoRR},
+  volume    = {abs/1704.02685},
+  year      = {2017},
+  url       = {http://arxiv.org/abs/1704.02685},
+  archivePrefix = {arXiv},
+  eprint    = {1704.02685}
+}
+
+
+Key note: It needs a reference input which varies from case to case and could be hard to find
+          Still not clear how C_{\delta x, \delta t} is computed. Probably just the contribution
+	  {\delta x} to {\delta t} 
+---------------------------------------------------------------------------------------
+4- SmoothGradient
+
+@misc{smilkov2017smoothgrad,
+    title={SmoothGrad: removing noise by adding noise},
+    author={Daniel Smilkov and Nikhil Thorat and Been Kim and Fernanda Viégas and Martin Wattenberg},
+    year={2017},
+    eprint={1706.03825},
+    archivePrefix={arXiv},
+    primaryClass={cs.LG}
+}
+
+Key note: Add several times random noise to input x than perform gradient tecniques to get
+          feature relevance, finally compute the mean of this feature relevance.
+          (consider absoute value for images with 3 input)
+
+----------------------------------------------------------------------------------------
+5- IntegratedGradients
+
+@misc{sundararajan2017axiomatic,
+    title={Axiomatic Attribution for Deep Networks},
+    author={Mukund Sundararajan and Ankur Taly and Qiqi Yan},
+    year={2017},
+    eprint={1703.01365},
+    archivePrefix={arXiv},
+    primaryClass={cs.LG}
+}
+
+Key note: Use background, compute the sum (integral) of the gradient for each input in the line
+          given by the input and the background
+----------------------------------------------------------------------------------------
+6- InputXGradient
+
+@misc{kindermans2016investigating,
+    title={Investigating the influence of noise and distractors on the interpretation of neural networks},
+    author={Pieter-Jan Kindermans and Kristof Schütt and Klaus-Robert Müller and Sven Dähne},
+    year={2016},
+    eprint={1611.07270},
+    archivePrefix={arXiv},
+    primaryClass={stat.ML}
+}
+
+Key note: just multuiply the gradient for the initial input??	
+----------------------------------------------------------------------------------------
+7-GradCam
+
+@article{DBLP:journals/corr/SelvarajuDVCPB16,
+  author    = {Ramprasaath R. Selvaraju and
+               Abhishek Das and
+               Ramakrishna Vedantam and
+               Michael Cogswell and
+               Devi Parikh and
+               Dhruv Batra},
+  title     = {Grad-CAM: Why did you say that? Visual Explanations from Deep Networks
+               via Gradient-based Localization},
+  journal   = {CoRR},
+  volume    = {abs/1610.02391},
+  year      = {2016},
+  url       = {http://arxiv.org/abs/1610.02391},
+  archivePrefix = {arXiv},
+  eprint    = {1610.02391}
+}
+
+
+Keynote: To use when we have CNN + FNN (also ReLU since it use also GuidedBackProp)
+	 For every CNN layer compute "alpha" by computing the avarage global average pooling 
+	 of the gradient of the output "c" w.r.t. the activation of the layer.
+	 Sum all the alpha and feed it to the ReLU to obtain Grad-Cam, then perfrom matmul with
+         Guided BackProp to achieve Guided GradCam. 
+
+----------------------------------------------------------------------------------------
+8-Guided BackProp
+
+@article{GuidedBackProp,
+  author    = {Jost Tobias Springenberg and Alexey Dosovitskiy and Thomas Brox and Martin Riedmiller},
+  title     = {Striving for Simplicity: The All Convolutional Net},
+  year      = {2014},
+  url       = {https://arxiv.org/abs/1412.6806},
+  archivePrefix = {arXiv},
+  eprint    = {1412.6806}
+}
+
+Keynote:
+
+----------------------------------------------------------------------------------------
+9-DistilNNtoDecisionTree
+
+@misc{frosst2017distilling,
+    title={Distilling a Neural Network Into a Soft Decision Tree},
+    author={Nicholas Frosst and Geoffrey Hinton},
+    year={2017},
+    eprint={1711.09784},
+    archivePrefix={arXiv},
+    primaryClass={cs.LG}
+}
+
+----------------------------------------------------------------------------------------
+10-TCAV
+
+@misc{kim2017interpretability,
+    title={Interpretability Beyond Feature Attribution: Quantitative Testing with Concept Activation Vectors (TCAV)},
+    author={Been Kim and Martin Wattenberg and Justin Gilmer and Carrie Cai and James Wexler and Fernanda Viegas and Rory Sayres},
+    year={2017},
+    eprint={1711.11279},
+    archivePrefix={arXiv},
+    primaryClass={stat.ML}
+}
+
+-----------------------------------------------------------------------------------------
+11- AutoXAI
+
+@misc{ghorbani2019automatic,
+    title={Towards Automatic Concept-based Explanations},
+    author={Amirata Ghorbani and James Wexler and James Zou and Been Kim},
+    year={2019},
+    eprint={1902.03129},
+    archivePrefix={arXiv},
+    primaryClass={stat.ML}
+}
+
+----------------------------------------------------------------------------------------
+12- AllSHAPs
+
+@misc{sundararajan2019shapley,
+    title={The many Shapley values for model explanation},
+    author={Mukund Sundararajan and Amir Najmi},
+    year={2019},
+    eprint={1908.08474},
+    archivePrefix={arXiv},
+    primaryClass={cs.AI}
+}
+
+------------------------------------------------------------------------------------------
+13- TreeSHAP
+
+@misc{lundberg2019explainable,
+    title={Explainable AI for Trees: From Local Explanations to Global Understanding},
+    author={Scott M. Lundberg and Gabriel Erion and Hugh Chen and Alex DeGrave and Jordan M. Prutkin and Bala Nair and Ronit Katz and Jonathan Himmelfarb and Nisha Bansal and Su-In Lee},
+    year={2019},
+    eprint={1905.04610},
+    archivePrefix={arXiv},
+    primaryClass={cs.LG}
+}
+
+Key: Un casino
+
+---------------------------------------------------------------------------------------------
+14- DeepTaylorDecomposition
+
+@article{MONTAVON2017211,
+title = "Explaining nonlinear classification decisions with deep Taylor decomposition",
+journal = "Pattern Recognition",
+volume = "65",
+pages = "211 - 222",
+year = "2017",
+issn = "0031-3203",
+doi = "https://doi.org/10.1016/j.patcog.2016.11.008",
+url = "http://www.sciencedirect.com/science/article/pii/S0031320316303582",
+author = "Grégoire Montavon and Sebastian Lapuschkin and Alexander Binder and Wojciech Samek and Klaus-Robert Müller",
+}
