@@ -1,7 +1,7 @@
 # explain_ML
 How to explain the decision process of a Machine Learning Algorithm.
 
-## Usefull resources:
+## Useful resources:
 1. Very fast practical intro to the topic using python (eli, shap, dependence plots) <br>
    https://www.kaggle.com/learn/machine-learning-explainability
 
@@ -10,5 +10,7 @@ How to explain the decision process of a Machine Learning Algorithm.
    
 3. Shap: Similar to Captum but for all kind of ML models (trees, model agnostic) and for both PyTorch and Keras NNs. <br>
    https://github.com/slundberg/shap
+   
+4. All papers in *articles*
    
 ## more to come
